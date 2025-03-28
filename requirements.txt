@@ -1,5 +1,4 @@
-streamlit
-pandas
-selenium
-webdriver-manager
-chromedriver-autoinstaller
+streamlit==1.32.2
+pandas==2.1.4
+selenium==4.13.0
+webdriver-manager==3.8.6
