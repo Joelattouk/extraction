@@ -26,24 +26,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 def init_driver(headless=True):
-    """Initialise le driver Chrome"""
+    """Initialise le driver Chrome pour le cloud"""
     chrome_options = Options()
     
-    # Configuration spécifique pour le cloud
+    # Configuration cloud obligatoire
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--disable-gpu")
     
     if headless:
         chrome_options.add_argument("--headless=new")
 
-    # Utilisation du binaire système de Chromium
+    # Utilisation du Chromium système
     chrome_options.binary_location = "/usr/bin/chromium"
 
-    # Configuration du service sans ChromeDriverManager
+    # Configuration du service
     service = Service(executable_path="/usr/bin/chromedriver")
-    return webdriver.Chrome(service=service, options=chrome_options)
-
+    
+    return webdriver.Chrome(
+        service=service,
+        options=chrome_options,
+        service_args=['--verbose'],  # Pour le débogage
+    )
 def scrape_bc_articles(driver, save_path):
     """Scraping des BC et articles"""
     data_bc = []
