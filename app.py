@@ -25,30 +25,26 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+
 def init_driver(headless=True):
-    """Initialise le driver Chrome pour le cloud"""
+    """Initialise le driver Chrome en mode cloud"""
     chrome_options = Options()
-    
-    # Configuration cloud obligatoire
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--remote-debugging-port=9222")
     chrome_options.add_argument("--disable-gpu")
     
     if headless:
-        chrome_options.add_argument("--headless=new")
+        chrome_options.add_argument("--headless")  # Version plus stable
 
-    # Utilisation du Chromium système
-    chrome_options.binary_location = "/usr/bin/chromium"
-
-    # Configuration du service
-    service = Service(executable_path="/usr/bin/chromedriver")
+    # Utilisation de WebDriver Manager pour éviter les erreurs de version
+    service = Service(ChromeDriverManager().install())
     
-    return webdriver.Chrome(
-        service=service,
-        options=chrome_options,
-        service_args=['--verbose'],  # Pour le débogage
-    )
+    return webdriver.Chrome(service=service, options=chrome_options)
+
 def scrape_bc_articles(driver, save_path):
     """Scraping des BC et articles"""
     data_bc = []
