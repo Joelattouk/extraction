@@ -1,0 +1,6 @@
+streamlit
+pandas
+time
+re
+selenium
+webdriver-manager
