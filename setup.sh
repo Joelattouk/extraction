@@ -6,3 +6,5 @@ apt-get install -y libglib2.0-0 libsm6 libxext6 libxrender1
 
 # Installer les dépendances Python spécifiées dans requirements.txt
 pip install -r requirements.txt
+# Ajoutez ces lignes
+apt-get install -y chromium chromium-driver
